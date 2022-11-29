@@ -1,57 +1,55 @@
 JEECG BOOT 低代码开发平台（Vue3前端）
 ===============
-当前最新版本： 3.4.0（发布时间：20220725）
-> 变更大版本号与后台同步 3.3.X，后续单独发布版本会更新小版本号。
-
+当前最新版本： 3.4.4（发布时间：2022-11-21）
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zhangdaiscott/jeecg-boot/blob/master/LICENSE)
 [![](https://img.shields.io/badge/Author-北京国炬软件-orange.svg)](http://www.jeecg.com)
-[![](https://img.shields.io/badge/Blog-官方博客-blue.svg)](https://my.oschina.net/jeecg)
-[![](https://img.shields.io/badge/version-3.4.1-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg-boot)
+[![](https://img.shields.io/badge/Blog-官方博客-blue.svg)](https://jeecg.blog.csdn.net)
+[![](https://img.shields.io/badge/version-3.4.4-brightgreen.svg)](https://github.com/zhangdaiscott/jeecg-boot)
 [![GitHub stars](https://img.shields.io/github/stars/zhangdaiscott/jeecg-boot.svg?style=social&label=Stars)](https://github.com/zhangdaiscott/jeecg-boot)
 [![GitHub forks](https://img.shields.io/github/forks/zhangdaiscott/jeecg-boot.svg?style=social&label=Fork)](https://github.com/zhangdaiscott/jeecg-boot)
 
 
 
 ## 简介
-JeecgBoot-Vue3采用 Vue3.0、Vite、 Ant-Design-Vue、TypeScript 等新技术方案，包括二次封装组件、utils、hooks、动态菜单、权限校验、按钮级别权限控制等功能。
-是在 Vben-Admin 基础上研发的，适合于JeecgBoot低代码平台的VUE3版前端解决方案，目前已是稳定版本，可用于生产项目。
+JeecgBoot-Vue3采用 Vue3.0、Vite、 Ant-Design-Vue3、TypeScript 等新技术方案，包括二次封装组件、utils、hooks、动态菜单、权限校验、按钮级别权限控制等功能。
+是JeecgBoot低代码平台的vue3技术栈的全新UI版本，功能强于vue2版。
  
 > 强大的代码生成器让前后端代码一键生成! JeecgBoot引领低代码开发模式(OnlineCoding-> 代码生成-> 手工MERGE)， 帮助解决Java项目70%的重复工作，让开发更多关注业务。既能快速提高效率，节省成本，同时又不失灵活性
 
-##  项目源码
+## 技术支持
 
-| 仓库 |前端源码Vue3版 | 前端源码Vue2版 | 后端源码 |
-|-|-|-|-|
-| Github | [jeecgboot-vue3](https://github.com/jeecgboot/jeecgboot-vue3)  | [ant-design-vue-jeecg](https://github.com/jeecgboot/ant-design-vue-jeecg) | [jeecg-boot](https://github.com/jeecgboot/jeecg-boot) |
-| 码云 | [jeecgboot-vue3](https://gitee.com/jeecg/jeecgboot-vue3)  | [ant-design-vue-jeecg](https://gitee.com/jeecg/ant-design-vue-jeecg)  | [jeecg-boot](https://gitee.com/jeecg/jeecg-boot) |
+关闭Gitee的issue通道，使用中遇到问题或者BUG可以在 [Github上提Issues](https://github.com/jeecgboot/jeecgboot-vue3/issues/new)
 
+官方支持： http://jeecg.com/doc/help
+
+
+## 源码下载
+
+- 后台源码 ：https://github.com/jeecgboot/jeecg-boot
+- 前端源码 ：https://github.com/jeecgboot/jeecgboot-vue3
 
 ##### 项目说明
 
 | 项目名                | 说明                     | 
 |--------------------|------------------------|
 | `jeecgboot-vue3` | Vue3版前端代码 | 
-| `jeecg-boot`    | JAVA后台（支持微服务）        | 
-| `ant-design-vue-jeecg`  |Vue2版前端代码   |   
-
-
-
-> 入门必看>>[切换Vue3路由](http://vue3.jeecg.com/2671576)
+| `jeecg-boot`    | SpringBoot后台项目（支持微服务）        | 
 
 
 ## 技术文档
 
--   开发文档：[http://vue3.jeecg.com](http://vue3.jeecg.com)
+-   官方文档：[http://vue3.jeecg.com](http://vue3.jeecg.com)
 -   官方网站： [http://www.jeecg.com](http://www.jeecg.com)
 -   在线演示：[http://boot3.jeecg.com](http://boot3.jeecg.com)
--  快速入门：[入门视频](https://www.bilibili.com/video/BV1V34y187Y9 "入门视频") |  [ 代码生成](http://vue3.jeecg.com/2677352)
+-   快速入门：[常见问题](http://vue3.jeecg.com/2426559) | [入门视频](https://www.bilibili.com/video/BV1V34y187Y9 "入门视频") |  [ 代码生成](http://vue3.jeecg.com/2677352)
 -   QQ交流群：683903138
 
 ## 安装与使用
 
 
- > 环境要求: Node.js版本要求12.x以上，且不能为13.x版本，这里推荐14.x及以上。
+ > 环境要求: 版本要求Node 14.18+ / 16+ 版本以上，不再支持 Node 12 / 13 / 15。
+ > 建议使用pnpm，如果使用yarn,请用Yarn1.x版本，否则依赖可能安装不上。
 
   
 - Get the project code
@@ -65,26 +63,30 @@ git clone https://github.com/jeecgboot/jeecgboot-vue3.git
 ```bash
 cd jeecgboot-vue3
 
-yarn install
-
+pnpm install
 ```
 
-- 配置后台接口地址
+- 配置接口地址 `.env.development`
+
 ```bash
-.env.development
+VITE_PROXY = [["/jeecgboot","http://localhost:8080/jeecg-boot"],["/upload","http://localhost:3300/upload"]]
+VITE_GLOB_DOMAIN_URL=http://localhost:8080/jeecg-boot
 ```
+
+> 说明：把`http://localhost:8080/jeecg-boot` 换成自己地址，其他不用改。
+
 
 - run
 
 ```bash
-yarn serve
+pnpm serve
 ```
 
 
 - build
 
 ```bash
-yarn build
+pnpm build
 ```
 
 
@@ -92,11 +94,13 @@ yarn build
 
 - host设置
 
+>注意： 需要把`127.0.0.1`替换成真实IP 比如`192.`开头,不然后端不通。
+
 ```bash
 127.0.0.1 jeecg-boot-system
 127.0.0.1 jeecg-boot-gateway
 ```
->注意： 需要把`127.0.0.1`替换成真实IP 比如`192.`开头,不然后端不通。
+
 
 - 下载项目
 
@@ -104,10 +108,9 @@ yarn build
 git clone https://github.com/jeecgboot/jeecgboot-vue3.git
 
 cd jeecgboot-vue3
-
 ```
-- 修改后台域名
-.env.production
+
+- 配置接口域名 `.env.production`
 
 ```bash
 VITE_GLOB_API_URL=/jeecgboot
@@ -118,9 +121,9 @@ VITE_GLOB_DOMAIN_URL=http://jeecg-boot-system:8080/jeecg-boot
 - 编译项目
 
 ```bash
-yarn install
+pnpm install
 
-yarn build
+pnpm build
 ```
 
 - 启动容器
@@ -158,6 +161,42 @@ VITE_GLOB_DOMAIN_URL=http://jeecg-boot-gateway:9999
 ```bash
 镜像需要重现构建，最好把单体的镜像删掉，重新构建docker镜像。
 ```
+
+
+
+
+
+
+
+## 入门必备
+
+本项目需要一定前端基础知识，请确保掌握 Vue 的基础知识，以便能处理一些常见的问题。 建议在开发前先学一下以下内容，提前了解和学习这些知识，会对项目理解非常有帮助:
+
+*   [JeecgBoot-Vue3文档](http://vue3.jeecg.com)
+*   [Vue3 文档](https://cn.vuejs.org/)
+*   [Ant-Design-Vue](https://www.antdv.com/docs/vue/introduce-cn/)
+*   [TypeScript](https://www.typescriptlang.org/)
+*   [Vue-router](https://router.vuejs.org/zh)
+*   [Es6](https://es6.ruanyifeng.com/)
+*   [Vitejs](https://cn.vitejs.dev/guide/)
+*   [Pinia(vuex替代方案)](https://pinia.esm.dev/introduction.html)
+*   [Vue-RFCS](https://github.com/vuejs/rfcs)
+*   [Vue2 迁移到 3](https://v3.vuejs.org/guide/migration/introduction.html)
+*   [vxetable文档](https://vxetable.cn)
+*   [~~Vben文档~~](https://vvbin.cn/doc-next)
+*   [~~WindiCss~~](https://windicss.netlify.app/)
+
+
+##   浏览器支持
+
+**本地开发**推荐使用`Chrome 最新版`浏览器，**不支持**`Chrome 90`以下版本。
+
+**生产环境**支持现代浏览器，不支持 IE。
+
+| [![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png)](http://godban.github.io/browsers-support-badges/)IE | [![ Edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png)](http://godban.github.io/browsers-support-badges/)Edge | [![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png)](http://godban.github.io/browsers-support-badges/)Firefox | [![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png)](http://godban.github.io/browsers-support-badges/)Chrome | [![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)](http://godban.github.io/browsers-support-badges/)Safari |
+| --- | --- | --- | --- | --- |
+| not support | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
+
 
 
 ## 功能模块
@@ -269,11 +308,9 @@ VITE_GLOB_DOMAIN_URL=http://jeecg-boot-gateway:9999
 │  ├─Online在线表单 - 功能已开放
 │  ├─Online代码生成器 - 功能已开放
 │  ├─Online在线报表 - 功能已开放
-│  ├─Online在线图表(未开源)
-│  ├─Online图表模板配置(未开源)
-│  ├─Online布局设计(未开源)
-│  ├─多数据源管理 - 功能已开放
-│─流程模块功能 (未开源)
+│  ├─Online在线图表(暂未开源)
+│  ├─多数据源管理
+│─流程模块功能 (暂未开源)
 │  ├─流程设计器
 │  ├─表单设计器
 │  ├─大屏设计器
@@ -287,16 +324,11 @@ VITE_GLOB_DOMAIN_URL=http://jeecg-boot-gateway:9999
 │  └─我发起的流程
 │  └─我的抄送
 │  └─流程委派、抄送、跳转
-│  └─。。。
-│─OA办公组件 (未开源)
-│  ├─更多功能
-│  └─。。。
-└─其他模块 (暂不开源)
+│  └─OA办公组件
+└─其他模块 
    └─更多功能开发中。。 
    
 ```
-
-
 
 
 ##   系统效果
@@ -335,12 +367,6 @@ Online表单&Online报表&代码生成
 ![](https://static.oschina.net/uploads/img/201904/14160633_u59G.png "")
 ![](https://static.oschina.net/uploads/img/201907/05165142_yyQ7.png "")
 
-报表设计
-
-![](https://oscimg.oschina.net/oscnet/up-da89eb034b8583d57b3f61493fec313ed28.png)
-![](https://oscimg.oschina.net/oscnet/up-35deca9d020d61ad464accfdeb3bb90ba5c.png)
-![](https://oscimg.oschina.net/oscnet/up-d1695b4a53ebbc9e9651e309e5af1c8bd30.png)
-![](https://oscimg.oschina.net/oscnet/up-4cc634b612e97f08ab702ef34f2ede53f2a.png)
 
 
 大屏模板
@@ -350,35 +376,6 @@ Online表单&Online报表&代码生成
 ![](https://static.oschina.net/uploads/img/201912/25133301_k9Kc.jpg "")
 
 ![](https://oscimg.oschina.net/oscnet/up-649cb79c01eb95d5c2217a5dad28515da82.png)
-
-
-
-## 入门必备
-
-本项目需要一定前端基础知识，请确保掌握 Vue 的基础知识，以便能处理一些常见的问题。 建议在开发前先学一下以下内容，提前了解和学习这些知识，会对项目理解非常有帮助:
-
-*   [Vue3 文档](https://v3.vuejs.org/)
-*   [TypeScript](https://www.typescriptlang.org/)
-*   [Vue-router](https://next.router.vuejs.org/)
-*   [Ant-Design-Vue](https://2x.antdv.com/docs/vue/introduce-cn/)
-*   [Vben文档](https://vvbin.cn/doc-next)
-*   [Es6](https://es6.ruanyifeng.com/)
-*   [Vitejs](https://vitejs.dev/)
-*   [Pinia(vuex替代方案)](https://pinia.esm.dev/introduction.html)
-*   [Vue-RFCS](https://github.com/vuejs/rfcs)
-*   [Vue2 迁移到 3](https://v3.vuejs.org/guide/migration/introduction.html)
-*   [~~WindiCss~~](https://windicss.netlify.app/)
-
-
-##   浏览器支持
-
-**本地开发**推荐使用`Chrome 最新版`浏览器，**不支持**`Chrome 80`以下版本。
-
-**生产环境**支持现代浏览器，不支持 IE。
-
-| [![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png)](http://godban.github.io/browsers-support-badges/)IE | [![ Edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png)](http://godban.github.io/browsers-support-badges/)Edge | [![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png)](http://godban.github.io/browsers-support-badges/)Firefox | [![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png)](http://godban.github.io/browsers-support-badges/)Chrome | [![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)](http://godban.github.io/browsers-support-badges/)Safari |
-| --- | --- | --- | --- | --- |
-| not support | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
 
 

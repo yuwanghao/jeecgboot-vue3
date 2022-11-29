@@ -1,7 +1,8 @@
 import type { VNodeChild } from 'vue';
 import type { PaginationProps } from './pagination';
 import type { FormProps } from '/@/components/Form';
-import type { ColumnProps, TableRowSelection as ITableRowSelection } from 'ant-design-vue/lib/table/interface';
+import type { TableRowSelection as ITableRowSelection } from 'ant-design-vue/lib/table/interface';
+import type { ColumnProps } from 'ant-design-vue/lib/table';
 
 import { ComponentType } from './componentType';
 import { VueNode } from '/@/utils/propTypes';
@@ -446,6 +447,8 @@ export interface BasicColumn extends ColumnProps {
   auth?: RoleEnum | RoleEnum[] | string | string[];
   // 业务控制是否显示
   ifShow?: boolean | ((column: BasicColumn) => boolean);
+  //compType-用于记录类型
+  compType?: string;
 }
 
 export type ColumnChangeParam = {

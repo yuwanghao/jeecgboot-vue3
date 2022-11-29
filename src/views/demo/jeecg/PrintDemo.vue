@@ -10,7 +10,7 @@
         </div>
         <!--签字-->
         <a-col :md="24" :sm="24">
-          <div class="sign" style="text-align: left; height: inherit">
+          <div class="sign" style="text-align: center; height: inherit">
             <a-col :span="24">
               <span>打印人员:</span>
               <a-input style="width: 30%" v-model:value="model.printer" />
@@ -23,13 +23,71 @@
               <a-input style="width: 80%" v-model:value="model.printContent" />
             </a-col>
             <a-col :span="24" style="margin-top: 20px">
-              <span>打印目的:</span>
+              <span>打印目的1:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的2:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的3:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的4:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的5:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的6:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的7:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的8:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的9:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的10:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的11:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的12:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的13:</span>
+              <a-input style="width: 80%" v-model:value="model.printReason" />
+            </a-col>
+            <a-col :span="24" style="margin-top: 20px">
+              <span>打印目的14:</span>
               <a-input style="width: 80%" v-model:value="model.printReason" />
             </a-col>
             <a-col style="margin-top: 20px" :span="24">
               <span>打印图片:</span>
               <br />
-              <a-upload action="/jsonplaceholder.typicode.com/posts/" listType="picture-card" :fileList="model.fileList" @preview="handlePreview" @change="handleChange">
+              <a-upload
+                action="/jsonplaceholder.typicode.com/posts/"
+                listType="picture-card"
+                :fileList="model.fileList"
+                @preview="handlePreview"
+                @change="handleChange"
+              >
                 <div v-if="model.fileList.length < 3">
                   <Icon icon="ant-design:plus-outlined" />
                   <div class="ant-upload-text">Upload</div>

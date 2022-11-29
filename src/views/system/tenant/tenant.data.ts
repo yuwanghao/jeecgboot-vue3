@@ -1,4 +1,5 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { getAutoScrollContainer } from '/@/utils/common/compUtils';
 
 export const columns: BasicColumn[] = [
   {
@@ -21,12 +22,6 @@ export const columns: BasicColumn[] = [
   {
     title: '结束时间',
     dataIndex: 'endDate',
-    sorter: true,
-    width: 180,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
     sorter: true,
     width: 180,
   },
@@ -56,14 +51,17 @@ export const searchFormSchema: FormSchema[] = [
     },
     colProps: { span: 8 },
   },
-  {
-    field: 'fieldTime',
-    component: 'RangePicker',
-    label: '时间字段',
-    colProps: {
-      span: 8,
-    },
-  },
+  // {
+  //   field: 'fieldTime',
+  //   component: 'RangePicker',
+  //   label: '时间字段',
+  //   componentProps: {
+  //     valueType: 'Date',
+  //   },
+  //   colProps: {
+  //     span: 8,
+  //   },
+  // },
 ];
 
 export const formSchema: FormSchema[] = [
@@ -86,6 +84,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       showTime: true,
       valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      getPopupContainer: getAutoScrollContainer,
     },
   },
   {
@@ -95,6 +94,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       showTime: true,
       valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      getPopupContainer: getAutoScrollContainer,
     },
   },
   {

@@ -1,5 +1,5 @@
 <template>
-  <a-radio-group v-if="compType === CompTypeEnum.Radio" v-bind="attrs" v-model:value="state" @change="handleChange">
+  <a-radio-group v-if="compType === CompTypeEnum.Radio" v-bind="attrs" v-model:value="state" @change="handleChangeRadio">
     <template v-for="item in dictOptions" :key="`${item.value}`">
       <a-radio :value="item.value">
         {{ item.label }}
@@ -7,7 +7,13 @@
     </template>
   </a-radio-group>
 
-  <a-radio-group v-else-if="compType === CompTypeEnum.RadioButton" v-bind="attrs" v-model:value="state" buttonStyle="solid" @change="handleChange">
+  <a-radio-group
+    v-else-if="compType === CompTypeEnum.RadioButton"
+    v-bind="attrs"
+    v-model:value="state"
+    buttonStyle="solid"
+    @change="handleChangeRadio"
+  >
     <template v-for="item in dictOptions" :key="`${item.value}`">
       <a-radio-button :value="item.value">
         {{ item.label }}
@@ -22,8 +28,16 @@
         <LoadingOutlined />
       </template>
     </a-input>
-    <a-select v-else :placeholder="placeholder" v-bind="attrs" v-model:value="state" :filterOption="handleFilterOption" :getPopupContainer="getPopupContainer" @change="handleChange">
-      <a-select-option v-if="showChooseOption" :value="undefined">请选择</a-select-option>
+    <a-select
+      v-else
+      :placeholder="placeholder"
+      v-bind="attrs"
+      v-model:value="state"
+      :filterOption="handleFilterOption"
+      :getPopupContainer="getPopupContainer"
+      @change="handleChange"
+    >
+      <a-select-option v-if="showChooseOption" :value="null">请选择…</a-select-option>
       <template v-for="item in dictOptions" :key="`${item.value}`">
         <a-select-option :value="item.value">
           <span style="display: inline-block; width: 100%" :title="item.label">
@@ -35,13 +49,13 @@
   </template>
 </template>
 <script lang="ts">
-  import { defineComponent, PropType, ref, reactive, watchEffect, computed, unref, watch, onMounted } from 'vue';
+  import { defineComponent, PropType, ref, reactive, watchEffect, computed, unref, watch, onMounted, nextTick } from 'vue';
   import { propTypes } from '/@/utils/propTypes';
   import { useAttrs } from '/@/hooks/core/useAttrs';
-  import { initDictOptions } from '/@/utils/dict/index';
+  import { initDictOptions } from '/@/utils/dict';
   import { get, omit } from 'lodash-es';
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
-  import { CompTypeEnum } from '/@/enums/CompTypeEnum.ts';
+  import { CompTypeEnum } from '/@/enums/CompTypeEnum';
   import { LoadingOutlined } from '@ant-design/icons-vue';
 
   export default defineComponent({
@@ -69,10 +83,9 @@
     },
     emits: ['options-change', 'change'],
     setup(props, { emit, refs }) {
-      const emitData = ref<any[]>([]);
       const dictOptions = ref<any[]>([]);
       const attrs = useAttrs();
-      const [state] = useRuleFormItem(props, 'value', 'change', emitData);
+      const [state, , , formItemContext] = useRuleFormItem(props, 'value', 'change');
       const getBindValue = Object.assign({}, unref(props), unref(attrs));
       // 是否正在加载回显数据
       const loadingEcho = ref<boolean>(false);
@@ -108,6 +121,7 @@
         () => {
           if (props.value === '') {
             emit('change', '');
+            nextTick(() => formItemContext.onFieldChange());
           }
         }
       );
@@ -131,13 +145,37 @@
       }
 
       function handleChange(e) {
-        emitData.value = [e?.target?.value || e];
+        const { mode } = unref<Recordable>(getBindValue);
+        // 兼容多选模式
+        if (mode === 'multiple') {
+          state.value = e?.target?.value ?? e;
+        } else {
+          state.value = [e?.target?.value ?? e];
+        }
+        // 过滤掉空值
+        if (state.value == null || state.value === '') {
+          state.value = [];
+        }
+        if (Array.isArray(state.value)) {
+          state.value = state.value.filter((item) => item != null && item !== '');
+        }
+        //update-begin---author:wangshuai ---date:20221123  for：单选模式要改成字符串------------
+        if(mode !== 'multiple' && state.value && state.value.length>0){
+          state.value = state.value[0];
+        }
+        //update-end---author:wangshuai ---date:20221123  for：单选模式要改成字符串--------------
+        // nextTick(() => formItemContext.onFieldChange());
+      }
+
+      /** 单选radio的值变化事件 */
+      function handleChangeRadio(e) {
+        state.value = e?.target?.value ?? e;
       }
 
       /** 用于搜索下拉框中的内容 */
       function handleFilterOption(input, option) {
         // 在 label 中搜索
-        let labelIf = option?.children[0]?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+        let labelIf = option.children()[0]?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
         if (labelIf) {
           return true;
         }
@@ -154,6 +192,7 @@
         dictOptions,
         CompTypeEnum,
         handleChange,
+        handleChangeRadio,
         handleFilterOption,
       };
     },

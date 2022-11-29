@@ -17,7 +17,15 @@
             </a>
           </template>
 
-          <a-table :class="'my-index-table tytable1'" ref="table1" size="small" rowKey="id" :columns="columns" :dataSource="dataSource1" :pagination="false">
+          <a-table
+            :class="'my-index-table tytable1'"
+            ref="table1"
+            size="small"
+            rowKey="id"
+            :columns="columns"
+            :dataSource="dataSource1"
+            :pagination="false"
+          >
             <template #ellipsisText="{ text }">
               <JEllipsis :value="text" :length="textMaxLength"></JEllipsis>
             </template>
@@ -49,7 +57,15 @@
             </a>
           </template>
 
-          <a-table :class="'my-index-table tytable2'" ref="table1" size="small" rowKey="id" :columns="columns" :dataSource="dataSource2" :pagination="false">
+          <a-table
+            :class="'my-index-table tytable2'"
+            ref="table1"
+            size="small"
+            rowKey="id"
+            :columns="columns"
+            :dataSource="dataSource2"
+            :pagination="false"
+          >
             <template #ellipsisText="{ text }">
               <JEllipsis :value="text" :length="textMaxLength"></JEllipsis>
             </template>
@@ -78,7 +94,15 @@
             </div>
           </template>
 
-          <a-table :class="'my-index-table tytable4'" ref="table1" size="small" rowKey="id" :columns="columns" :dataSource="dataSource4" :pagination="false">
+          <a-table
+            :class="'my-index-table tytable4'"
+            ref="table1"
+            size="small"
+            rowKey="id"
+            :columns="columns"
+            :dataSource="dataSource4"
+            :pagination="false"
+          >
             <template #ellipsisText="{ text }">
               <JEllipsis :value="text" :length="textMaxLength"></JEllipsis>
             </template>
@@ -103,7 +127,15 @@
             </div>
           </template>
 
-          <a-table :class="'my-index-table tytable3'" ref="table1" size="small" rowKey="id" :columns="columns" :dataSource="dataSource3" :pagination="false">
+          <a-table
+            :class="'my-index-table tytable3'"
+            ref="table1"
+            size="small"
+            rowKey="id"
+            :columns="columns"
+            :dataSource="dataSource3"
+            :pagination="false"
+          >
             <template #ellipsisText="{ text }">
               <JEllipsis :value="text" :length="textMaxLength"></JEllipsis>
             </template>
@@ -297,11 +329,11 @@
   .index-container-ty {
     margin: 12px 12px 0;
 
-    :deep .ant-card-body {
+    :deep(.ant-card-body) {
       padding: 10px 12px 0 12px;
     }
 
-    :deep .ant-card-head {
+    :deep(.ant-card-head) {
       line-height: 24px;
       min-height: 24px;
       background: #7196fb !important;
@@ -324,7 +356,7 @@
       }
     }
 
-    :deep .ant-table-footer {
+    :deep(.ant-table-footer) {
       text-align: right;
       padding: 6px 12px 6px 6px;
       background: #fff;
@@ -346,25 +378,43 @@
       }
     }
 
-    :deep .ant-table-thead > tr > th,
-    :deep .ant-table-tbody > tr > td {
+    :deep(.ant-table-thead > tr > th),
+    :deep(.ant-table-tbody > tr > td) {
       border-bottom: 1px solid #90aeff;
     }
 
-    :deep .ant-table-small > .ant-table-content > .ant-table-fixed-left > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-thead > tr > th,
-    :deep .ant-table-small > .ant-table-content > .ant-table-fixed-right > .ant-table-body-outer > .ant-table-body-inner > table > .ant-table-thead > tr > th {
+    :deep(
+      .ant-table-small
+      > .ant-table-content
+      > .ant-table-fixed-left
+      > .ant-table-body-outer
+      > .ant-table-body-inner
+      > table
+      > .ant-table-thead
+      > tr
+      > th),
+    :deep(
+      .ant-table-small
+      > .ant-table-content
+      > .ant-table-fixed-right
+      > .ant-table-body-outer
+      > .ant-table-body-inner
+      > table
+      > .ant-table-thead
+      > tr
+      > th) {
       border-bottom: 1px solid #90aeff;
     }
 
-    :deep .ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-thead > tr > th {
+    :deep(.ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-thead > tr > th) {
       border-bottom: 1px solid #90aeff;
     }
 
-    :deep .ant-table-small {
+    :deep(.ant-table-small) {
       border: 1px solid #90aeff;
     }
 
-    :deep .ant-table-placeholder {
+    :deep(.ant-table-placeholder) {
       padding: 0;
       height: 215px;
     }

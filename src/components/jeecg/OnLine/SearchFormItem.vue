@@ -4,12 +4,29 @@
       <span :title="item.label" class="label-text">{{ item.label }}</span>
     </template>
     <template v-if="single_mode === item.mode">
-      <a-date-picker :showTime="false" valueFormat="YYYY-MM-DD" :placeholder="'请选择' + item.label" v-model:value="queryParam[item.field]"></a-date-picker>
+      <a-date-picker
+        :showTime="false"
+        valueFormat="YYYY-MM-DD"
+        :placeholder="'请选择' + item.label"
+        v-model:value="queryParam[item.field]"
+      ></a-date-picker>
     </template>
     <template v-else>
-      <a-date-picker :showTime="false" valueFormat="YYYY-MM-DD" placeholder="开始日期" v-model:value="queryParam[item.field + '_begin']" style="width: calc(50% - 15px)"></a-date-picker>
+      <a-date-picker
+        :showTime="false"
+        valueFormat="YYYY-MM-DD"
+        placeholder="开始日期"
+        v-model:value="queryParam[item.field + '_begin']"
+        style="width: calc(50% - 15px)"
+      ></a-date-picker>
       <span class="group-query-strig">~</span>
-      <a-date-picker :showTime="false" valueFormat="YYYY-MM-DD" placeholder="结束日期" v-model:value="queryParam[item.field + '_end']" style="width: calc(50% - 15px)"></a-date-picker>
+      <a-date-picker
+        :showTime="false"
+        valueFormat="YYYY-MM-DD"
+        placeholder="结束日期"
+        v-model:value="queryParam[item.field + '_end']"
+        style="width: calc(50% - 15px)"
+      ></a-date-picker>
     </template>
   </a-form-item>
 
@@ -18,11 +35,16 @@
       <span :title="item.label" class="label-text">{{ item.label }}</span>
     </template>
     <template v-if="single_mode === item.mode">
-      <a-date-picker :placeholder="'请选择' + item.label" :show-time="true" valueFormat="YYYY-MM-DD HH:mm:ss" v-model:value="queryParam[item.field]"></a-date-picker>
+      <a-date-picker
+        :placeholder="'请选择' + item.label"
+        :show-time="true"
+        valueFormat="YYYY-MM-DD HH:mm:ss"
+        v-model:value="queryParam[item.field]"
+      ></a-date-picker>
     </template>
     <template v-else>
       <a-date-picker
-        placeholder="1选择开始时间"
+        placeholder="选择开始时间"
         :show-time="true"
         valueFormat="YYYY-MM-DD HH:mm:ss"
         v-model:value="queryParam[item.field + '_begin']"
@@ -30,7 +52,7 @@
       ></a-date-picker>
       <span class="group-query-strig" style="width: auto; padding: 0 4px">~</span>
       <a-date-picker
-        placeholder="2选择结束时间"
+        placeholder="选择结束时间"
         :show-time="true"
         valueFormat="YYYY-MM-DD HH:mm:ss"
         v-model:value="queryParam[item.field + '_end']"
@@ -47,17 +69,34 @@
       <a-date-picker :placeholder="'请选择' + item.label" mode="time" valueFormat="HH:mm:ss" v-model:value="queryParam[item.field]"></a-date-picker>
     </template>
     <template v-else>
-      <a-date-picker placeholder="请选择开始时间" mode="time" valueFormat="HH:mm:ss" v-model:value="queryParam[item.field + '_begin']" style="width: calc(50% - 15px)"></a-date-picker>
+      <a-date-picker
+        placeholder="请选择开始时间"
+        mode="time"
+        valueFormat="HH:mm:ss"
+        v-model:value="queryParam[item.field + '_begin']"
+        style="width: calc(50% - 15px)"
+      ></a-date-picker>
       <span class="group-query-strig">~</span>
-      <a-date-picker placeholder="请选择结束时间" mode="time" valueFormat="HH:mm:ss" v-model:value="queryParam[item.field + '_end']" style="width: calc(50% - 15px)"></a-date-picker>
+      <a-date-picker
+        placeholder="请选择结束时间"
+        mode="time"
+        valueFormat="HH:mm:ss"
+        v-model:value="queryParam[item.field + '_end']"
+        style="width: calc(50% - 15px)"
+      ></a-date-picker>
     </template>
   </a-form-item>
 
-  <a-form-item v-else-if="item.view === CompTypeEnum.List || item.view === CompTypeEnum.Radio || item.view === CompTypeEnum.Switch" :labelCol="labelCol" :class="'jeecg-online-search'">
+  <a-form-item
+    v-else-if="item.view === CompTypeEnum.List || item.view === CompTypeEnum.Radio || item.view === CompTypeEnum.Switch"
+    :labelCol="labelCol"
+    :class="'jeecg-online-search'"
+  >
     <template #label>
       <span :title="item.label" class="label-text">{{ item.label }}</span>
     </template>
-    <JDictSelectTag v-if="item.config === '1'" :placeholder="'请选择' + item.label" v-model="queryParam[item.field]" :dictCode="getDictCode(item)"> </JDictSelectTag>
+    <JDictSelectTag v-if="item.config === '1'" :placeholder="'请选择' + item.label" v-model="queryParam[item.field]" :dictCode="getDictCode(item)">
+    </JDictSelectTag>
     <a-select v-else :placeholder="'请选择' + item.label" v-model:value="queryParam[item.field]">
       <template v-for="(obj, index) in dictOptions[getDictOptionKey(item)]" :key="index">
         <a-select-option :value="obj.value"> {{ obj.text }}</a-select-option>
@@ -92,15 +131,8 @@
     <template #label>
       <span :title="item.label" class="label-text">{{ item.label }}</span>
     </template>
-    <JDictSelectTag v-if="item.config === '1'" v-model:value="queryParam[item.field]" :placeholder="'请选择' + item.label" :dict="getDictCode(item)"> </JDictSelectTag>
-    <!--TODO 新需要的组件-->
-    <!-- <j-online-search-select
-                v-else
-                :ref="item.field+'_search'"
-                v-model="queryParam[item.field]"
-                :placeholder=" '请选择'+item.label "
-                :sql="getSqlByDictCode(item)">
-        </j-online-search-select>-->
+    <JOnlineSearchSelect v-model:value="queryParam[item.field]" :placeholder="'请选择' + item.label" :sql="item.sql">
+  </JOnlineSearchSelect>
   </a-form-item>
 
   <a-form-item v-else-if="item.view === CompTypeEnum.SelUser" :labelCol="labelCol" :class="'jeecg-online-search'">
@@ -121,7 +153,14 @@
     <template #label>
       <span :title="item.label" class="label-text">{{ item.label }}</span>
     </template>
-    <JPopup :placeholder="'请选择' + item.label" v-model:value="queryParam[item.field]" :formElRef="formElRef" :code="item.dictTable" :field-config="item.dictCode" :multi="true" />
+    <JPopup
+      :placeholder="'请选择' + item.label"
+      v-model:value="queryParam[item.field]"
+      :formElRef="formElRef"
+      :code="item.dictTable"
+      :field-config="item.dictCode"
+      :multi="true"
+    />
   </a-form-item>
 
   <a-form-item v-else-if="item.view === CompTypeEnum.Pca" :labelCol="labelCol" :class="'jeecg-online-search'">
@@ -131,7 +170,12 @@
     <JAreaLinkage :placeholder="'请选择' + item.label" v-model:value="queryParam[item.field]" />
   </a-form-item>
   <!--TODO 缺少的组件-->
-  <a-form-item v-else-if="item.view === CompTypeEnum.Checkbox || item.view === CompTypeEnum.ListMulti" :labelCol="labelCol" :label="item.label" :class="'jeecg-online-search'">
+  <a-form-item
+    v-else-if="item.view === CompTypeEnum.Checkbox || item.view === CompTypeEnum.ListMulti"
+    :labelCol="labelCol"
+    :label="item.label"
+    :class="'jeecg-online-search'"
+  >
     <!-- <j-select-multiple
                 v-if="item.config==='1'"
                 :placeholder=" '请选择'+item.label "
@@ -150,7 +194,10 @@
     <template #label>
       <span :title="item.label" class="label-text">{{ item.label }}</span>
     </template>
-    <template v-if="single_mode === item.mode">
+    <template v-if="single_mode === item.mode && 'string'== item.view">
+      <j-input :placeholder="'请输入' + item.label" v-model:value="queryParam[item.field]"></j-input>
+    </template>
+    <template v-else-if="single_mode === item.mode">
       <a-input :placeholder="'请输入' + item.label" v-model:value="queryParam[item.field]"></a-input>
     </template>
     <template v-else>
@@ -166,7 +213,7 @@
   import { defineComponent, ref } from 'vue';
   import { DateTypeEnum } from '/@/enums/DateTypeEnum.ts';
   import { CompTypeEnum } from '/@/enums/CompTypeEnum.ts';
-  import { JDictSelectTag, JTreeSelect, JCategorySelect, JSelectUserByDept, JSelectDept, JPopup, JAreaLinkage } from '/@/components/Form';
+  import { JDictSelectTag, JTreeSelect, JCategorySelect, JSelectUserByDept, JSelectDept, JPopup, JAreaLinkage,JInput,JSearchSelect } from '/@/components/Form';
   export default defineComponent({
     name: 'JPopupOnlReport',
     components: {
@@ -178,6 +225,7 @@
       JSelectDept,
       JPopup,
       JAreaLinkage,
+      JInput,
     },
     props: {
       formElRef: {
@@ -261,16 +309,16 @@
   }
 
   /* 查询条件左对齐样式设置 */
-  .jeecg-online-search ::v-deep .ant-form-item-label {
+  .jeecg-online-search :deep(.ant-form-item-label) {
     flex: 0 0 auto !important;
     width: auto;
   }
-  .jeecg-online-search ::v-deep .ant-form-item-control {
+  .jeecg-online-search :deep(.ant-form-item-control) {
     max-width: 100%;
   }
 
   /* label显示宽度 超出显示... */
-  .jeecg-online-search ::v-deep .label-text {
+  .jeecg-online-search :deep(.label-text) {
     max-width: v-bind(labelTextMaxWidth);
     overflow: hidden;
     white-space: nowrap;

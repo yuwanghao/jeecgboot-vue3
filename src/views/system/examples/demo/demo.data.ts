@@ -6,53 +6,71 @@ export const columns: BasicColumn[] = [
   {
     title: '姓名',
     dataIndex: 'name',
-    width: 70,
+    width: 170,
     align: 'left',
+    resizable: true,
+    sorter: {
+      multiple:1
+    }
   },
   {
     title: '关键词',
     dataIndex: 'keyWord',
-    width: 30,
+    width: 130,
+    resizable: true,
   },
   {
     title: '打卡时间',
     dataIndex: 'punchTime',
-    width: 40,
+    width: 140,
+    resizable: true,
   },
   {
     title: '工资',
     dataIndex: 'salaryMoney',
-    width: 40,
+    width: 140,
+    resizable: true,
+    sorter: {
+      multiple: 2
+    }
   },
   {
     title: '奖金',
     dataIndex: 'bonusMoney',
-    width: 40,
+    width: 140,
+    resizable: true,
   },
   {
     title: '性别',
     dataIndex: 'sex',
+    sorter: {
+      multiple: 3
+    },
     customRender: ({ record }) => {
       return render.renderDict(record.sex, 'sex');
       // let v = record.sex ? (record.sex == '1' ? '男' : '女') : '';
       // return h('span', v);
     },
-    width: 20,
+    width: 120,
+    resizable: true,
   },
   {
     title: '生日',
     dataIndex: 'birthday',
-    width: 20,
+    width: 120,
+    resizable: true,
   },
   {
     title: '邮箱',
     dataIndex: 'email',
-    width: 20,
+    width: 120,
+    resizable: true,
   },
   {
     title: '个人简介',
     dataIndex: 'content',
-    width: 20,
+    width: 120,
+    resizable: true,
   },
 ];
 
@@ -67,6 +85,9 @@ export const searchFormSchema: FormSchema[] = [
     field: 'birthday',
     label: '生日',
     component: 'RangePicker',
+    componentProps: {
+      valueType: 'Date'
+    },
     colProps: { span: 8 },
   },
   {
@@ -92,6 +113,18 @@ export const formSchema: FormSchema[] = [
   {
     field: 'id',
     label: 'id',
+    component: 'Input',
+    show: false,
+  },
+  {
+    field: 'createBy',
+    label: 'createBy',
+    component: 'Input',
+    show: false,
+  },
+  {
+    field: 'createTime',
+    label: 'createTime',
     component: 'Input',
     show: false,
   },
@@ -154,8 +187,8 @@ export const formSchema: FormSchema[] = [
     field: 'birthday',
     label: '生日',
     component: 'DatePicker',
+    defaultValue: '',
     componentProps: {
-      showTime: true,
       valueFormat: 'YYYY-MM-DD',
       placeholder: '请选择生日',
     },
@@ -171,8 +204,9 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'content',
-    label: '个人简介',
+    label: '个人简介 - To introduce myself',
     component: 'InputTextArea',
+    labelLength: 4,
     componentProps: {
       placeholder: '请输入个人简介',
     },

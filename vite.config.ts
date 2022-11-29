@@ -1,9 +1,8 @@
 import type { UserConfig, ConfigEnv } from 'vite';
 import pkg from './package.json';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { loadEnv } from 'vite';
 import { resolve } from 'path';
-//require('vue-jeecg-plugs/packages/utils')
 import { generateModifyVars } from './build/generate/generateModifyVars';
 import { createProxy } from './build/vite/proxy';
 import { wrapperEnv } from './build/utils';
@@ -17,7 +16,7 @@ function pathResolve(dir: string) {
 const { dependencies, devDependencies, name, version } = pkg;
 const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
-  lastBuildTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+  lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
 };
 
 export default ({ command, mode }: ConfigEnv): UserConfig => {
@@ -56,13 +55,14 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     server: {
       // Listening on all local IPs
       host: true,
+      https: false,
       port: VITE_PORT,
       // Load proxy configuration from .env
       proxy: createProxy(VITE_PROXY),
     },
     build: {
+      minify: 'esbuild',
       target: 'es2015',
-      // 【VUEN-872】css编译兼容低版本chrome内核（例如360浏览器）
       cssTarget: 'chrome80',
       outDir: OUTPUT_DIR,
       terserOptions: {
@@ -70,10 +70,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           keep_infinity: true,
           // Used to delete console in production environment
           drop_console: VITE_DROP_CONSOLE,
+          drop_debugger: true,
         },
       },
       // Turning off brotliSize display can slightly reduce packaging time
-      brotliSize: false,
+      reportCompressedSize: false,
       chunkSizeWarningLimit: 2000,
     },
     define: {
@@ -100,13 +101,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       },
       // @iconify/iconify: The dependency is dynamically and virtually loaded by @purge-icons/generated, so it needs to be specified explicitly
       include: [
+        '@vue/runtime-core',
+        '@vue/shared',
         '@iconify/iconify',
         'ant-design-vue/es/locale/zh_CN',
-        'moment/dist/locale/zh-cn',
         'ant-design-vue/es/locale/en_US',
-        'moment/dist/locale/eu',
       ],
-      exclude: ['vue-demi'],
     },
   };
 };

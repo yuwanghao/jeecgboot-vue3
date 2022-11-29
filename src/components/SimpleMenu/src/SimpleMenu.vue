@@ -1,5 +1,12 @@
 <template>
-  <Menu v-bind="getBindValues" :activeName="activeName" :openNames="getOpenKeys" :class="prefixCls" :activeSubMenuNames="activeSubMenuNames" @select="handleSelect">
+  <Menu
+    v-bind="getBindValues"
+    :activeName="activeName"
+    :openNames="getOpenKeys"
+    :class="prefixCls"
+    :activeSubMenuNames="activeSubMenuNames"
+    @select="handleSelect"
+  >
     <template v-for="item in items" :key="item.path">
       <SimpleSubMenu :item="item" :parent="true" :collapsedShowTitle="collapsedShowTitle" :collapse="collapse" />
     </template>
@@ -115,8 +122,8 @@
         if (isUrl(key)) {
           // update-begin--author:sunjianlei---date:20220408---for: 【VUEN-656】配置外部网址打不开，原因是带了#号，需要替换一下
           let url = key.replace(URL_HASH_TAB, '#');
-          openWindow(url);
-          // openWindow(key);
+          window.open(url)
+          //openWindow(url);
           // update-begin--author:sunjianlei---date:20220408---for: 【VUEN-656】配置外部网址打不开，原因是带了#号，需要替换一下
           return;
         }

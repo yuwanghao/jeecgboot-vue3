@@ -7,7 +7,7 @@
       v-model:visible="popoverVisible"
       placement="bottomLeft"
       trigger="click"
-      @visibleChange="handleVisibleChange"
+      @visible-change="handleVisibleChange"
       :overlayClassName="`${prefixCls}__cloumn-list`"
       :getPopupContainer="getPopupContainer"
     >
@@ -93,6 +93,7 @@
   import type { BasicColumn, ColumnChangeParam } from '../../types/table';
   import { defineComponent, ref, reactive, toRefs, watchEffect, nextTick, unref, computed } from 'vue';
   import { Tooltip, Popover, Checkbox, Divider } from 'ant-design-vue';
+  import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface';
   import { SettingOutlined, DragOutlined } from '@ant-design/icons-vue';
   import { Icon } from '/@/components/Icon';
   import { ScrollContainer } from '/@/components/Container';
@@ -141,8 +142,10 @@
     setup(props, { emit, attrs }) {
       const { t } = useI18n();
       const table = useTableContext();
-      const popoverVisible = ref(false);
-
+      const popoverVisible = ref(true);
+      // update-begin--author:sunjianlei---date:20221101---for: 修复第一次进入时列表配置不能拖拽
+      nextTick(() => popoverVisible.value = false);
+      // update-end--author:sunjianlei---date:20221101---for: 修复第一次进入时列表配置不能拖拽
       const defaultRowSelection = omit(table.getRowSelection(), 'selectedRowKeys');
       let inited = false;
 
@@ -194,10 +197,12 @@
       );
 
       watchEffect(() => {
-        const columns = table.getColumns();
-        if (columns.length && !state.isInit) {
-          init();
-        }
+        setTimeout(() => {
+          const columns = table.getColumns();
+          if (columns.length && !state.isInit) {
+            init();
+          }
+        }, 0);
       });
 
       watchEffect(() => {
@@ -253,7 +258,7 @@
       }
 
       // checkAll change
-      function onCheckAllChange(e: ChangeEvent) {
+      function onCheckAllChange(e: CheckboxChangeEvent) {
         const checkList = plainOptions.value.map((item) => item.value);
         if (e.target.checked) {
           state.checkedList = checkList;
@@ -338,14 +343,14 @@
       }
 
       // Control whether the serial number column is displayed
-      function handleIndexCheckChange(e: ChangeEvent) {
+      function handleIndexCheckChange(e: CheckboxChangeEvent) {
         table.setProps({
           showIndexColumn: e.target.checked,
         });
       }
 
       // Control whether the check box is displayed
-      function handleSelectCheckChange(e: ChangeEvent) {
+      function handleSelectCheckChange(e: CheckboxChangeEvent) {
         table.setProps({
           rowSelection: e.target.checked ? defaultRowSelection : undefined,
         });
@@ -372,7 +377,8 @@
       function setColumns(columns: BasicColumn[] | string[]) {
         table.setColumns(columns);
         const data: ColumnChangeParam[] = unref(plainSortOptions).map((col) => {
-          const visible = columns.findIndex((c: BasicColumn | string) => c === col.value || (typeof c !== 'string' && c.dataIndex === col.value)) !== -1;
+          const visible =
+            columns.findIndex((c: BasicColumn | string) => c === col.value || (typeof c !== 'string' && c.dataIndex === col.value)) !== -1;
           return { dataIndex: col.value, fixed: col.fixed, visible };
         });
 

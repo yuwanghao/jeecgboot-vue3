@@ -14,15 +14,22 @@
       </template>
     </BasicForm>
 
-    <Table ref="tableElRef" v-bind="getBindValues" :rowClassName="getRowClassName" v-show="getEmptyDataIsShowTable" @change="handleTableChange">
-      <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
-        <slot :name="item" v-bind="data || {}"></slot>
-      </template>
-
-      <template #[`header-${column.dataIndex}`] v-for="column in columns" :key="column.dataIndex">
-        <HeaderCell :column="column" />
-      </template>
-    </Table>
+    <!-- antd v3 升级兼容，阻止数据的收集，防止控制台报错 -->
+    <!-- https://antdv.com/docs/vue/migration-v3-cn -->
+    <a-form-item-rest>
+      <Table ref="tableElRef" v-bind="getBindValues" :rowClassName="getRowClassName" v-show="getEmptyDataIsShowTable" @resizeColumn="handleResizeColumn" @change="handleTableChange">
+        <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
+          <slot :name="item" v-bind="data || {}"></slot>
+        </template>
+        <template #headerCell="{ column }">
+          <HeaderCell :column="column" />
+        </template>
+        <!-- 增加对antdv3.x兼容 -->
+        <template #bodyCell="data">
+          <slot name="bodyCell" v-bind="data || {}"></slot>
+        </template>
+      </Table>
+    </a-form-item-rest>
   </div>
 </template>
 <script lang="ts">
@@ -97,13 +104,16 @@
 
       const isFixedHeightPage = inject(PageWrapperFixedHeightKey, false);
       watchEffect(() => {
-        unref(isFixedHeightPage) && props.canResize && warn("'canResize' of BasicTable may not work in PageWrapper with 'fixedHeight' (especially in hot updates)");
+        unref(isFixedHeightPage) &&
+          props.canResize &&
+          warn("'canResize' of BasicTable may not work in PageWrapper with 'fixedHeight' (especially in hot updates)");
       });
 
       const { getLoading, setLoading } = useLoading(getProps);
       const { getPaginationInfo, getPagination, setPagination, setShowPagination, getShowPagination } = usePagination(getProps);
 
-      const { getRowSelection, getRowSelectionRef, getSelectRows, clearSelectedRowKeys, getSelectRowKeys, deleteSelectRowByKey, setSelectedRowKeys } = useRowSelection(getProps, tableData, emit);
+      const { getRowSelection, getRowSelectionRef, getSelectRows, clearSelectedRowKeys, getSelectRowKeys, deleteSelectRowByKey, setSelectedRowKeys } =
+        useRowSelection(getProps, tableData, emit);
 
       const {
         handleTableChange: onTableChange,
@@ -141,7 +151,10 @@
         onChange && isFunction(onChange) && onChange.call(undefined, ...args);
       }
 
-      const { getViewColumns, getColumns, setCacheColumnsByField, setColumns, getColumnsRef, getCacheColumns } = useColumns(getProps, getPaginationInfo);
+      const { getViewColumns, getColumns, setCacheColumnsByField, setColumns, getColumnsRef, getCacheColumns } = useColumns(
+        getProps,
+        getPaginationInfo
+      );
 
       const { getScrollRef, redoHeight } = useTableScroll(getProps, tableElRef, getColumnsRef, getRowSelectionRef, getDataSourceRef);
 
@@ -276,6 +289,9 @@
         wrapRef,
         tableAction,
         redoHeight,
+        handleResizeColumn: (w, col) => {
+          col.width = w;
+        },
         getFormProps: getFormProps as any,
         replaceFormSlotKey,
         getFormSlotKeys,
@@ -381,7 +397,7 @@
         border: none !important;
       }
 
-      .ant-table-body {
+      .ant-table-content {
         overflow-x: hidden !important;
         //  overflow-y: scroll !important;
       }
@@ -393,8 +409,8 @@
     //表格选择工具栏样式
     .alert {
       height: 38px;
-      background-color: #f3f3f3;
-      border-color: #e3e3e3;
+      background-color: #e6f7ff;
+      border-color: #91d5ff;
     }
     &--inset {
       .ant-table-wrapper {

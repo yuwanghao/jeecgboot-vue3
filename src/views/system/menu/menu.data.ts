@@ -3,10 +3,8 @@ import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Icon } from '/@/components/Icon';
 import { duplicateCheck } from '../user/user.api';
-import { ajaxGetDictItems } from './menu.api';
+import { ajaxGetDictItems ,checkPermDuplication } from './menu.api';
 import { render } from '/@/utils/common/renderUtils';
-import { Select } from 'ant-design-vue';
-import { rules } from '/@/utils/helper/validator';
 
 const isDir = (type) => type === 0;
 const isMenu = (type) => type === 1;
@@ -81,7 +79,7 @@ export const formSchema: FormSchema[] = [
     label: '菜单类型',
     component: 'RadioButtonGroup',
     defaultValue: 0,
-    componentProps: ({ formActionType }) => {
+    componentProps: ({ formActionType, formModel }) => {
       return {
         options: [
           { label: '一级菜单', value: 0 },
@@ -103,6 +101,11 @@ export const formSchema: FormSchema[] = [
               required: !isButton(e),
             },
           ]);
+          //update-begin---author:wangshuai ---date:20220729  for：[VUEN-1834]只有一级菜单，才默认值，子菜单的时候，清空------------
+          if (isMenu(e) && !formModel.id && formModel.component=='layouts/RouteView') {
+            formModel.component = '';
+          }
+          //update-end---author:wangshuai ---date:20220729  for：[VUEN-1834]只有一级菜单，才默认值，子菜单的时候，清空------------
         },
       };
     },
@@ -137,9 +140,11 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     required: true,
     ifShow: ({ values }) => !(values.component === ComponentTypes.IFrame && values.internalOrExternal) && values.menuType !== 2,
-    dynamicRules: ({ model, schema }) => {
-      return rules.duplicateCheckRule('sys_permission', 'url', model, schema, true);
+    //update-begin-author:zyf date:2022-11-02 for: 聚合路由允许路径重复
+     dynamicRules: ({ model, schema }) => {
+       return checkPermDuplication(model, schema, true);
     },
+    //update-end-author:zyf date:2022-11-02 for: 聚合路由允许路径重复
   },
   {
     field: 'component',
@@ -148,6 +153,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       placeholder: '请输入前端组件',
     },
+    defaultValue:'layouts/RouteView',
     required: true,
     ifShow: ({ values }) => !isButton(values.menuType),
   },

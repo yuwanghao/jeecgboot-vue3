@@ -19,7 +19,16 @@ interface UseFormActionContext {
   schemaRef: Ref<FormSchema[]>;
   handleFormValues: Fn;
 }
-export function useFormEvents({ emit, getProps, formModel, getSchema, defaultValueRef, formElRef, schemaRef, handleFormValues }: UseFormActionContext) {
+export function useFormEvents({
+  emit,
+  getProps,
+  formModel,
+  getSchema,
+  defaultValueRef,
+  formElRef,
+  schemaRef,
+  handleFormValues,
+}: UseFormActionContext) {
   async function resetFields(): Promise<void> {
     const { resetFunc, submitOnReset } = unref(getProps);
     resetFunc && isFunction(resetFunc) && (await resetFunc());
@@ -48,6 +57,11 @@ export function useFormEvents({ emit, getProps, formModel, getSchema, defaultVal
       const schema = unref(getSchema).find((item) => item.field === key);
       let value = values[key];
 
+      //antd3升级后，online表单时间控件选中值报js错 TypeError: Reflect.has called on non-object
+      if(!(values instanceof Object)){
+        return;
+      }
+      
       const hasKey = Reflect.has(values, key);
 
       value = handleInputNumberValue(schema?.component, value);
@@ -237,7 +251,11 @@ export function useFormEvents({ emit, getProps, formModel, getSchema, defaultVal
       const res = handleFormValues(values);
       emit('submit', res);
     } catch (error) {
-      throw new Error(error);
+      //update-begin-author:taoyan date:2022-11-4 for: 列表查询表单会触发校验错误导致重置失败，原因不明
+      emit('submit', {});
+      console.error('query form validate error, please ignore!', error)
+      //throw new Error(error);
+      //update-end-author:taoyan date:2022-11-4 for: 列表查询表单会触发校验错误导致重置失败，原因不明
     }
   }
 

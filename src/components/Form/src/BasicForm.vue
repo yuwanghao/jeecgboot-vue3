@@ -52,6 +52,7 @@
 
   import { basicProps } from './props';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import dayjs from 'dayjs';
 
   export default defineComponent({
     name: 'BasicForm',
@@ -80,7 +81,13 @@
 
       // Get the basic configuration of the form
       const getProps = computed((): FormProps => {
-        return { ...props, ...unref(propsRef) } as FormProps;
+        let mergeProps = { ...props, ...unref(propsRef) } as FormProps;
+        //update-begin-author:sunjianlei date:20220923 for: 如果用户设置了labelWidth，则使labelCol失效，解决labelWidth设置无效的问题
+        if (mergeProps.labelWidth) {
+          mergeProps.labelCol = undefined;
+        }
+        //update-end-author:sunjianlei date:20220923 for: 如果用户设置了labelWidth，则使labelCol失效，解决labelWidth设置无效的问题
+        return mergeProps;
       });
 
       const getFormClass = computed(() => {
@@ -106,15 +113,28 @@
       const getSchema = computed((): FormSchema[] => {
         const schemas: FormSchema[] = unref(schemaRef) || (unref(getProps).schemas as any);
         for (const schema of schemas) {
-          const { defaultValue, component } = schema;
+          const { defaultValue, component, componentProps } = schema;
           // handle date type
           if (defaultValue && dateItemType.includes(component)) {
+            const { valueFormat } = componentProps
             if (!Array.isArray(defaultValue)) {
-              schema.defaultValue = dateUtil(defaultValue);
+              //update-begin---author:wangshuai ---date:20221124  for：[issues/215]列表页查询框（日期选择框）设置初始时间，一进入页面时，后台报日期转换类型错误的------------
+              if(valueFormat){
+                schema.defaultValue = dateUtil(defaultValue).format(valueFormat);
+              }else{
+                schema.defaultValue = dateUtil(defaultValue);
+              }
+              //update-end---author:wangshuai ---date:20221124  for：[issues/215]列表页查询框（日期选择框）设置初始时间，一进入页面时，后台报日期转换类型错误的------------
             } else {
-              const def: moment.Moment[] = [];
+              const def: dayjs.Dayjs[] = [];
               defaultValue.forEach((item) => {
-                def.push(dateUtil(item));
+                //update-begin---author:wangshuai ---date:20221124  for：[issues/215]列表页查询框（日期选择框）设置初始时间，一进入页面时，后台报日期转换类型错误的------------
+                if(valueFormat){
+                  def.push(dateUtil(item).format(valueFormat));
+                }else{
+                  def.push(dateUtil(item));
+                }
+                //update-end---author:wangshuai ---date:20221124  for：[issues/215]列表页查询框（日期选择框）设置初始时间，一进入页面时，后台报日期转换类型错误的------------
               });
               schema.defaultValue = def;
             }
@@ -150,17 +170,29 @@
         formElRef: formElRef as Ref<FormActionType>,
       });
 
-      const { handleSubmit, setFieldsValue, clearValidate, validate, validateFields, getFieldsValue, updateSchema, resetSchema, appendSchemaByField, removeSchemaByFiled, resetFields, scrollToField } =
-        useFormEvents({
-          emit,
-          getProps,
-          formModel,
-          getSchema,
-          defaultValueRef,
-          formElRef: formElRef as Ref<FormActionType>,
-          schemaRef: schemaRef as Ref<FormSchema[]>,
-          handleFormValues,
-        });
+      const {
+        handleSubmit,
+        setFieldsValue,
+        clearValidate,
+        validate,
+        validateFields,
+        getFieldsValue,
+        updateSchema,
+        resetSchema,
+        appendSchemaByField,
+        removeSchemaByFiled,
+        resetFields,
+        scrollToField,
+      } = useFormEvents({
+        emit,
+        getProps,
+        formModel,
+        getSchema,
+        defaultValueRef,
+        formElRef: formElRef as Ref<FormActionType>,
+        schemaRef: schemaRef as Ref<FormSchema[]>,
+        handleFormValues,
+      });
 
       createFormContext({
         resetAction: resetFields,
@@ -303,7 +335,24 @@
         }
       }
     }
-
+    /*【美化表单】form的字体改小一号*/
+    .ant-form-item-label > label{
+      font-size: 13px;
+    }
+    .ant-form-item .ant-select {
+      font-size: 13px;
+    }
+    .ant-select-item-option-selected {
+      font-size: 13px;
+    }
+    .ant-select-item-option-content {
+      font-size: 13px;
+    }
+    .ant-input {
+      font-size: 13px;
+    }
+    /*【美化表单】form的字体改小一号*/
+    
     .ant-form-explain {
       font-size: 14px;
     }

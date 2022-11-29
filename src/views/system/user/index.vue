@@ -10,7 +10,6 @@
         <a-button type="primary" @click="handleSyncUser" preIcon="ant-design:sync-outlined"> 同步流程</a-button>
         <a-button type="primary" @click="openModal(true, {})" preIcon="ant-design:hdd-outlined"> 回收站</a-button>
         <JThirdAppButton biz-type="user" :selected-row-keys="selectedRowKeys" syncToApp syncToLocal @sync-finally="onSyncFinally" />
-        <a-button type="primary" preIcon="ant-design:filter-outlined"> 高级查询?</a-button>
         <a-dropdown v-if="selectedRowKeys.length > 0">
           <template #overlay>
             <a-menu>
@@ -70,7 +69,6 @@
 
   const { createMessage, createConfirm } = useMessage();
 
-  const selectRows = ref([]);
   //注册drawer
   const [registerDrawer, { openDrawer }] = useDrawer();
   //回收站model
@@ -89,7 +87,7 @@
       columns: columns,
       size: 'small',
       formConfig: {
-        labelWidth: 200,
+        // labelWidth: 200,
         schemas: searchFormSchema,
       },
       actionColumn: {
@@ -109,7 +107,7 @@
   });
 
   //注册table数据
-  const [registerTable, { reload, updateTableDataRecord }, { rowSelection, selectedRowKeys }] = tableContext;
+  const [registerTable, { reload, updateTableDataRecord }, { rowSelection, selectedRows, selectedRowKeys }] = tableContext;
 
   /**
    * 新增事件
@@ -154,7 +152,7 @@
    * 批量删除事件
    */
   async function batchHandleDelete() {
-    let hasAdmin = unref(selectRows).filter((item) => item.username == 'admin');
+    let hasAdmin = unref(selectedRows).filter((item) => item.username == 'admin');
     if (unref(hasAdmin).length > 0) {
       createMessage.warning('管理员账号不允许此操作！');
       return;
@@ -197,7 +195,7 @@
    * 批量冻结解冻
    */
   function batchFrozen(status) {
-    let hasAdmin = unref(selectRows).filter((item) => item.username == 'admin');
+    let hasAdmin = selectedRows.value.filter((item) => item.username == 'admin');
     if (unref(hasAdmin).length > 0) {
       createMessage.warning('管理员账号不允许此操作！');
       return;

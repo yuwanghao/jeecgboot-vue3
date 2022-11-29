@@ -4,7 +4,22 @@ import type { ComponentType } from './types/index';
 /**
  * Component list, register here to setting it in the form
  */
-import { Input, Select, Radio, Checkbox, AutoComplete, Cascader, DatePicker, InputNumber, Switch, TimePicker, TreeSelect, Slider, Rate, Divider } from 'ant-design-vue';
+import {
+  Input,
+  Select,
+  Radio,
+  Checkbox,
+  AutoComplete,
+  Cascader,
+  DatePicker,
+  InputNumber,
+  Switch,
+  TimePicker,
+  TreeSelect,
+  Slider,
+  Rate,
+  Divider,
+} from 'ant-design-vue';
 import ApiRadioGroup from './components/ApiRadioGroup.vue';
 import RadioButtonGroup from './components/RadioButtonGroup.vue';
 import ApiSelect from './components/ApiSelect.vue';
@@ -43,6 +58,7 @@ import JSearchSelect from './jeecg/components/JSearchSelect.vue';
 import JAddInput from './jeecg/components/JAddInput.vue';
 import { Time } from '/@/components/Time';
 import JRangeNumber from './jeecg/components/JRangeNumber.vue';
+import JRangeDate from './jeecg/components/JRangeDate.vue'
 
 const componentMap = new Map<ComponentType, Component>();
 
@@ -110,6 +126,7 @@ componentMap.set('JUpload', JUpload);
 componentMap.set('JSearchSelect', JSearchSelect);
 componentMap.set('JAddInput', JAddInput);
 componentMap.set('JRangeNumber', JRangeNumber);
+componentMap.set('RangeDate', JRangeDate);
 
 export function add(compName: ComponentType, component: Component) {
   componentMap.set(compName, component);

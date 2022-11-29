@@ -9,13 +9,13 @@
         v-bind="getBindValue"
         @select="onSelect"
         @check="onCheck"
-        :replaceFields="replaceFields"
+        :fieldNames="fieldNames"
         :checkedKeys="checkedKeys"
         :checkStrictly="getCheckStrictly"
       />
       <!--树操作部分-->
       <template #insertFooter>
-        <a-dropdown placement="topCenter">
+        <a-dropdown placement="top">
           <template #overlay>
             <a-menu>
               <a-menu-item v-if="multiple" key="1" @click="checkALL(true)">全部勾选</a-menu-item>
@@ -38,6 +38,7 @@
   import { treeProps } from '/@/components/Form/src/jeecg/props/props';
   import { BasicTree, TreeActionType } from '/@/components/Tree';
   import { useTreeBiz } from '/@/components/Form/src/jeecg/hooks/useTreeBiz';
+  import {propTypes} from "/@/utils/propTypes";
 
   export default defineComponent({
     name: 'DeptSelectModal',
@@ -52,6 +53,7 @@
         type: String,
         default: '部门选择',
       },
+      value: propTypes.oneOfType([propTypes.string, propTypes.array])
     },
     emits: ['register', 'getSelectResult'],
     setup(props, { emit, refs }) {
@@ -59,15 +61,22 @@
       const [register, { closeModal }] = useModalInner();
       const attrs = useAttrs();
       const treeRef = ref<Nullable<TreeActionType>>(null);
-      const getBindValue = Object.assign({}, unref(props), unref(attrs));
+      
+      //update-begin-author:taoyan date:2022-10-28 for: 部门选择警告类型不匹配
+      let propValue = props.value === ''?[]:props.value;
+      const getBindValue = Object.assign({}, unref(props), unref(attrs), {value: propValue});
+      //update-end-author:taoyan date:2022-10-28 for: 部门选择警告类型不匹配
+      
       const queryUrl = getQueryUrl();
-      const [{ visibleChange, checkedKeys, getCheckStrictly, getSelectTreeData, onCheck, onLoadData, treeData, checkALL, expandAll, onSelect }] = useTreeBiz(treeRef, queryUrl, getBindValue);
+      const [{ visibleChange, checkedKeys, getCheckStrictly, getSelectTreeData, onCheck, onLoadData, treeData, checkALL, expandAll, onSelect }] =
+        useTreeBiz(treeRef, queryUrl, getBindValue);
       const searchInfo = ref(props.params);
       const tree = ref([]);
       //替换treeNode中key字段为treeData中对应的字段
-      const replaceFields = {
+      const fieldNames = {
         key: props.rowKey,
       };
+      // {children:'children', title:'title', key:'key' }
       /**
        * 确定选择
        */
@@ -98,7 +107,7 @@
         onSelect,
         checkALL,
         expandAll,
-        replaceFields,
+        fieldNames,
         checkedKeys,
         register,
         getBindValue,
